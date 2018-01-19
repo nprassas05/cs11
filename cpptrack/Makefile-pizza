@@ -1,0 +1,12 @@
+# Niko Prassas
+CXX=clang++ $(CXXFLAGS)
+#CXXFLAGS=-Wall -o2
+
+.SUFFIXES: .o .cpp
+
+OFILES = pizza.o pizzadough.o tomatosauce.o toppings.o \
+    mushrooms.o peppers.o cheese.o pepperoni.o
+
+pizza: $(OFILES)
+	$(CXX) $(OFILES) -o pizza
+	@echo "Pizza is Hot and NICE!"
