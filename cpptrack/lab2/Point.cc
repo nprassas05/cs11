@@ -38,15 +38,15 @@ void Point::setZ(double val) {
 
 // Accessors:
 
-double Point::getX() const {
+double Point::getX() {
   return x_coord;
 }
 
-double Point::getY() const {
+double Point::getY() {
   return y_coord;
 }
 
-double Point::getZ() const {
+double Point::getZ() {
 	return z_coord;
 }
 

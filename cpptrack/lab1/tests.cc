@@ -24,9 +24,15 @@ void testB() {
 	cout << p1 << endl << p2 << endl;
 }
 
+void testC(Point p) {
+	Point p1 = Point();
+	cout << p << endl << p1 << endl;
+}
+
 int main() {
 	testA();
 	testB();
+	testC(Point(1, 2, 3));
 	cout << "All tests passed" << endl;
 	return 0;
 }

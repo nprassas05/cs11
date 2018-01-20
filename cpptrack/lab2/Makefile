@@ -1,15 +1,15 @@
 CPP=g++ -std=c++11
-OFILES=lab1.o Point.o
+OFILES=tsp.o Point.o
 DEBUG=-Wall -g -DDEBUG
 
 default: $(OFILES)
-	$(CPP) $(OFILES) -o lab1
+	$(CPP) $(OFILES) -o tsp
 
 debug-mode: $(OFILES)
-	$(CPP) $(DEBUG) $(OFILES) -o lab1
+	$(CPP) $(DEBUG) $(OFILES) -o tsp
 
-lab1.o: lab1.cc
-	$(CPP) -c lab1.cc
+tsp.o: tsp.cc
+	$(CPP) -c tsp.cc
 
 Point.o: Point.cc Point.hh
 	$(CPP) -c Point.cc
@@ -17,4 +17,4 @@ Point.o: Point.cc Point.hh
 # -r means ignore errors if files don't exist that we are
 # atttempting to delete.
 clean:
-	-rm -f *.o lab1 ./a.out
+	-rm -f *.o tsp ./a.out
