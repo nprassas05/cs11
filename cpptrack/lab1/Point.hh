@@ -23,9 +23,9 @@ public:
   void setZ(double val);
 
   // Accessor methods
-  double getX();
-  double getY();
-  double getZ();
+  double getX() const;
+  double getY() const;
+  double getZ() const;
 
   // distance to another point
   double distanceTo(const Point&) const;
