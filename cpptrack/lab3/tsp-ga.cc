@@ -22,11 +22,17 @@ TSPGenome::TSPGenome(const std::vector<int> &order) {
 	circuitLength = 1e9;
 }
 
-/* accessor */
+/* accessors */
 std::vector<int> TSPGenome::getOrder() const {
 	return order;
 }
 
+double TSPGenome::getCircuitLength() const {
+	return circuitLength;
+}
+
+/* compute the length of circuit, storing result internally in
+   the genomes circuitLength field. */
 void TSPGenome::computeCircuitLength(const std::vector<Point> points) {
 	double dist = 0;
 	size_t len = order.size();
@@ -45,27 +51,15 @@ void TSPGenome::computeCircuitLength(const std::vector<Point> points) {
 void TSPGenome::mutate() {
 	int i, j;
 	setRandomIndexes(i, j, 0, order.size());
-	swap(order, i, j);
-	// int i = rand() % order.size();
-	// int j = rand() % order.size();
-	// while (j == i) {
-	// 	j = rand() % order.size();
-	// }
-	// int temp = order[i];
-	// order[i] = order[j];
-	// order[j] = temp;
-}
-
-double TSPGenome::getCircuitLength() const {
-	return circuitLength;
+	myswap(order, i, j);
 }
 
 /* return a new genome that is a combination of two parent genomes */
 TSPGenome crosslink(const TSPGenome &g1, const TSPGenome &g2) {
-	PRE_COND(g1.getOrder().size() == g2.getOrder().size());
-
 	std::vector<int> order1 = g1.getOrder();
 	std::vector<int> order2 = g2.getOrder();
+	PRE_COND(order1.size() == order2.size());
+
 	size_t len = g1.getOrder().size();
 
 	
@@ -80,7 +74,7 @@ TSPGenome crosslink(const TSPGenome &g1, const TSPGenome &g2) {
 
 	for (size_t i = 0; i < len; i++) {
 		INVARIANT(index < len);
-		if (added.find(order2[i]) != added.end()) {
+		if (added.find(order2[i]) == added.end()) {
 			offspringOrder[index] = order2[i];
 			index = index + 1;
 			added.insert(order2[i]);
@@ -108,8 +102,8 @@ TSPGenome findAShortPath(const std::vector<Point> &points,
 	}
 
 	for (int gen = 0; gen < numGenerations; gen++) {
-		for (TSPGenome g: genomes) {
-			g.computeCircuitLength(points);
+		for (size_t i = 0; i < populationSize; i++) {
+			genomes[i].computeCircuitLength(points);
 		}
 
 		sort(genomes.begin(), genomes.end(), shorterPath);
@@ -145,7 +139,7 @@ bool shorterPath(const TSPGenome &g1, const TSPGenome &g2) {
 
 /* generic swap function for a vector */
 template<class T>
-void swap(std::vector<T> v, size_t i, size_t j) {
+void myswap(std::vector<T> &v, int i, int j) {
 	PRE_COND(0 <= i && i < v.size());
 	PRE_COND(0 <= j && j < v.size());
 	T temp = v[i];
@@ -162,4 +156,29 @@ void setRandomIndexes(int& j, int& k, int lower, int upper) {
 	while (k == j) {
 		k = lower + (rand() % (upper - lower));
 	}
+}
+
+/* Overloaded operators */
+bool TSPGenome::operator==(const TSPGenome &g) {
+	if (g.getOrder().size() != order.size()) return false;
+
+	std::vector<int> gOrder = g.getOrder();
+	for (int i = 0; i < gOrder.size(); i++) {
+		if (order[i] != gOrder[i]) return false;
+	}
+
+	return true;
+}
+
+std::ostream &operator<<(std::ostream &os, const TSPGenome &g) {
+	os << "Genome Order: ";
+	for (const auto& x: g.order) {
+		os << x << " ";
+	}
+	os << ": circuitLength is " << g.getCircuitLength();
+	return os;
+}
+
+bool TSPGenome::operator!=(const TSPGenome &g) {
+	return !(this->operator==(g));
 }
