@@ -1,5 +1,6 @@
 #include "maze.hh"
 #include <iostream>
+#include <fstream>
 #include <cassert>
 using namespace std;
 
@@ -191,7 +192,57 @@ void Maze::setVisited(int cellRow, int cellCol) {
 // |           | E |
 // +---+---+---+---+
 void Maze::print(ostream &os) const {
+	os << numRows << " " << numCols << endl;
 
+	for (int i = 0; i < numRows; i++) {
+		// output walls above row j
+		for (int j = 0; j < numCols; j++) {
+			os << "+";
+			if (hasWall(i, j, Direction::NORTH)) {
+				os << "---";
+			} else {
+				os << "   ";
+			}
+		}
+
+		os << "+" << endl;
+
+		for (int j = 0; j < numCols; j++) {
+			if (hasWall(i, j, Direction::WEST)) {
+				os << "|";
+			} else {
+				os << " ";
+			}
+			os << " ";
+
+			if (start.row == i && start.col == j) {
+				os << "S";
+			} else if (end.row == i && end.col == j) {
+				os << "E";
+			} else {
+				os << " ";
+			}
+
+			os << " ";
+
+			if (j == numCols - 1 && hasWall(i, j, Direction::EAST)) {
+				os << "|";
+			}
+		}
+
+		os << endl;
+	}
+
+	int lastRow = numRows - 1;
+	for (int j = 0; j < numCols; j++) {
+		os << "+";
+		if (hasWall(lastRow, j, Direction::SOUTH)) {
+			os << "---";
+		} else {
+			os << "   ";
+		}
+	}
+	os << "+" << endl;
 }
 
 int Maze::expandedIndex(int cellRow, int cellCol) const {

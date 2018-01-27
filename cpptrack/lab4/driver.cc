@@ -20,19 +20,31 @@ void testA() {
 }
 
 void testB() {
-	Maze m1(4, 6);
-    m1.clear();
-    
-    m1.setCell(2, 2, MazeCell::VISITED);
-    m1.setWall(1, 3, Direction::EAST);
-    m1.setCell(3, 5, MazeCell::VISITED);
-    m1.setWall(3, 4, Direction::SOUTH);
+	Maze m(3, 4);
+	m.setStart(0, 0);
+	m.setEnd(2, 3);
 
-    Maze m2(m1);
+	for (int j = 0; j < m.getNumCols(); j++) {
+		m.setWall(0, j, Direction::NORTH);
+		m.setWall(m.getNumRows() -1, j, Direction::SOUTH);
+	}
+	for (int i = 0; i < m.getNumRows(); i++) {
+		m.setWall(i, 0, Direction::WEST);
+		m.setWall(i, m.getNumCols() - 1, Direction::EAST);
+	}
+
+	m.setWall(0, 0, Direction::SOUTH);
+	m.setWall(0, 1, Direction::EAST);
+	m.setWall(1, 1, Direction::EAST);
+	m.setWall(1, 1, Direction::WEST);
+	m.setWall(1, 2, Direction::EAST);
+	m.setWall(2, 3, Direction::WEST);
+
+	m.print(cout);
 }
 
 int main() {
-	testA();
+	//testA();
 	testB();
 	return 0;
 }
