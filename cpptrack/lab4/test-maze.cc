@@ -5,9 +5,7 @@
 #include <cstdlib>
 #include <iostream>
 
-
 using namespace std;
-
 
 /*===========================================================================
  * Test code for two-argument constructor
@@ -307,7 +305,6 @@ void test_clear(TestContext &ctx) {
     ctx.result();
 }
 
-
 /*===========================================================================
  * Test code for set-all-walls operation
  */
@@ -463,7 +460,6 @@ void test_assignment(TestContext &ctx) {
     
     ctx.result();
 }
-
 
 /*===========================================================================
  * Main program to run tests!

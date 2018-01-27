@@ -1,7 +1,5 @@
 #include <iostream>
-
 using namespace std;
-
 
 // A simple class for representing locations in a 2D array.  The class also
 // implements equality/inequality operators so that we can see if two
@@ -60,6 +58,26 @@ class Maze {
     
     // The end of the maze, in cell coordinates
     Location end;
+
+/* temporarily make helper functions public.  Will change back to private. */
+public:
+
+    // Take 2D expanded coordinates and compute the corresponding 1D array index
+    int getArrayIndex(const Location &) const;
+
+    // Returns the expanded coordinates of the specified cell coordinates
+    Location getCellArrayCoord(int, int) const;
+
+    // Returns the expanded coordinates of the wall on a specific side of
+  	// a cell given in cell coordinates
+    Location getWallArrayCoord(int, int, Direction) const;
+
+    int expandedIndex(int, int) const;
+    int expandedWallIndex(int, int, Direction) const;
+
+    int expandedNumRows() const;
+    int expandedNumCols() const;
+    void copyData(const Maze &);
 
 public:
     // Initialize a new maze of size rows x cols
@@ -132,7 +150,6 @@ public:
 
     // Changes the cell's value to VISITED
     void setVisited(int cellRow, int cellCol);
-
 
     // Outputs the maze using simple ASCII-art to the specified output stream.
     // The output format is as follows, using the example maze from the
